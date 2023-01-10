@@ -14,11 +14,22 @@ class InverseNumberStream extends Transform {
 // Request => ReadableStream
 // Response => WritableStream
 
+const server = http.createServer(async (request, response) => {
+  const buffers = []
 
-const server = http.createServer((request, response) => {
-  return request
-    .pipe(new InverseNumberStream())
-    .pipe(response)
+  for await (const chunck of request) {
+    buffers.push(chunck)
+  }
+
+  const fullStreamContent = Buffer.concat(buffers).toString()
+
+  console.log(fullStreamContent)
+
+  return response.end(fullStreamContent)
+
+  // return request
+  //   .pipe(new InverseNumberStream())
+  //   .pipe(response)
 })
 
 server.listen(3334, () => console.log('Server running in port 3334.'))
