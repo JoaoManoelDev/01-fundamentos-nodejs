@@ -26,10 +26,6 @@ const server = http.createServer(async (request, response) => {
   console.log(fullStreamContent)
 
   return response.end(fullStreamContent)
-
-  // return request
-  //   .pipe(new InverseNumberStream())
-  //   .pipe(response)
 })
 
 server.listen(3334, () => console.log('Server running in port 3334.'))
